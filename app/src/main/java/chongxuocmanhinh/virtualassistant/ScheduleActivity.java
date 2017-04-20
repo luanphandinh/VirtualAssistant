@@ -108,6 +108,7 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getApplicationContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
+                displayActions(null);
             }
 
             @Override
@@ -137,10 +138,11 @@ public class ScheduleActivity extends AppCompatActivity {
 
         // Setup Caldroid
         caldroidFragment.setCaldroidListener(listener);
+    }
 
-        final TextView textView = (TextView) findViewById(R.id.textview);
-
-
+    private void displayActions(Date date){
+        TextView action = (TextView) findViewById(R.id.action);
+        action.setText("Tôi muốn đi chơi với bạn!");
     }
 
     /**

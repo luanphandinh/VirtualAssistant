@@ -25,7 +25,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textview"
+            android:id="@+id/action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

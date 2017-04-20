@@ -21,10 +21,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtOutput;
     private ImageButton btnMicrophone;
     private ImageButton btnSchedule;
+    private TextExtractor extractor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        extractor = new TextExtractor();
         txtOutput = (TextView) findViewById(R.id.txt_output);
         btnMicrophone = (ImageButton) findViewById(R.id.btn_mic);
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String text = result.get(0);
                     //if(text.equals("my name is gerrick"))
-                    txtOutput.setText(text);
+                    extractor.setStringData(text);
+                    String text1 = extractor.getDate();
+                    String text2 = extractor.getAction();
+                    txtOutput.setText(text1 + "\n" + text2);
                 }
                 break;
             }
