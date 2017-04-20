@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private final int SPEECH_RECOGNITION_CODE = 1;
     private TextView txtOutput;
     private ImageButton btnMicrophone;
+    private ImageButton btnSchedule;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startSpeechToText();
+            }
+        });
+
+        btnSchedule = (ImageButton)findViewById(R.id.btn_schedule);
+        btnSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
+                startActivity(intent);
             }
         });
     }
