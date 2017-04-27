@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnMicrophone;
     private ImageButton btnSchedule;
     private TextExtractor extractor;
+    private ScheduleHelper scheduleDB;
+    //===========================================================
+    private ArrayList<String> listActions;
+    //===========================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 startSpeechToText();
             }
         });
-
+        scheduleDB = new ScheduleHelper(this);
         btnSchedule = (ImageButton)findViewById(R.id.btn_schedule);
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
                     extractor.setStringData(text);
                     String text1 = extractor.getDate();
                     String text2 = extractor.getAction();
-                    txtOutput.setText(text1 + "\n" + text2);
+
+                    if(scheduleDB.insertSchedule(text1,text2))
+                        txtOutput.setText(text1 + "\n" + text2);
                 }
                 break;
             }

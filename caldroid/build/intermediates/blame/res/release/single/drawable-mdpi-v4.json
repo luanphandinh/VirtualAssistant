@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png",
-        "source": "C:\\Users\\L\\.android\\build-cache\\9fee51f89ec7382a820a622505fec7cd112e9a43\\output\\res\\drawable-mdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
-    },
-    {
         "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\notification_bg_low_normal.9.png",
         "source": "C:\\Users\\L\\.android\\build-cache\\9fee51f89ec7382a820a622505fec7cd112e9a43\\output\\res\\drawable-mdpi-v4\\notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png",
+        "source": "C:\\Users\\L\\.android\\build-cache\\9fee51f89ec7382a820a622505fec7cd112e9a43\\output\\res\\drawable-mdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\abc_ic_star_half_black_36dp.png",

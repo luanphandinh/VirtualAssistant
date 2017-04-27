@@ -51,7 +51,7 @@ public class TextExtractor {
     }
 
     public String getDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(mDate.getTime());
     }
 
@@ -97,8 +97,8 @@ public class TextExtractor {
     int mLastDayIndex = 0;
 
     public void extract(){
-            extractDate();
-            mAction = extractAction();
+        extractDate();
+        mAction = extractAction();
     }
 
     private String extractAction(){
@@ -122,12 +122,13 @@ public class TextExtractor {
 
         int endIndex;
         //Xem có tuần hay không
+        isLastDay(mStringData,_EXTRACTWEEK);
         int index = isContainsWeek(mStringData);
         if(index != -1){
             try {
-                mDay = isNextOrAfter(mStringData.substring(index,index + 8),_EXTRACTWEEK);
+                mDay = isNextOrAfter(mStringData.substring(index,index + 8),_EXTRACTWEEK,index);
                 if(mDay != -1) {
-                    mStringData = replaceString(mStringData,"   ",index,index + 4 + 4) + " ";
+                    mStringData = replaceString(mStringData,"   ",index,index + 4) + " ";
                     _checkByWeek = true;
                     mDate.set(Calendar.DAY_OF_MONTH,mDay);
                     //return date;
@@ -138,29 +139,31 @@ public class TextExtractor {
         }
         //Check thứ mấy
         index = isContainsDayOfWeek(mStringData);
+        isLastDay(mStringData,_EXTRACTDAYOFWEEK);
         int dayOfWeek= mDate.getFirstDayOfWeek();
         if(index != -1){
             try {
                 System.out.println("Vào kiểm tra thứ");
                 dayOfWeek = extractDayOfWeek(mStringData,index,_EXTRACTDAYOFWEEK);
+
                 System.out.println("Thứ " + dayOfWeek );
             }catch(NumberFormatException e){
             }
             index = -1;
         }
         //Tách năm ra
+        isLastDay(mStringData,_EXTRACTYEAR);
         index = isContainsYear(mStringData);
         if(index != -1){
             try {
-                mMonth = extractDate(mStringData, _EXTRACTYEAR, index);
-                mDate.set(Calendar.YEAR,mMonth);
-                endIndex = index + 4 + (int)(Math.log10(mMonth)+1);
-                mStringData = removeString(mStringData,index,endIndex);
+                mYear = extractDate(mStringData, _EXTRACTYEAR, index);
+                mDate.set(Calendar.YEAR,mYear);
             }catch(NumberFormatException e){
             }
             index = -1;
         }
         //Tách tháng ra
+        isLastDay(mStringData,_EXTRACTMONTH);
         index = isContainsMonth(mStringData);
         int month;
         if(index != -1){
@@ -168,8 +171,6 @@ public class TextExtractor {
                 System.out.println("Vô phần tháng!");
                 month = extractDate(mStringData,_EXTRACTMONTH,index) - 1;
                 mDate.set(Calendar.MONTH,month);
-                endIndex = index + 6 + (int)(Math.log10(month)+1);
-                mStringData = removeString(mStringData,index,endIndex);
             }catch(NumberFormatException e){
             }
 
@@ -197,8 +198,8 @@ public class TextExtractor {
 
                     mDate.set(Calendar.DAY_OF_MONTH, mDay);
                 }
-                endIndex = index + 5 + (int)(Math.log10(mDay)+1);
-                mStringData = removeString(mStringData,index,endIndex);
+//                endIndex = index + 5 + (int)(Math.log10(mDay)+1);
+//                mStringData = removeString(mStringData,index,endIndex);
             }catch(NumberFormatException e){
             }
             index = -1;
@@ -278,6 +279,7 @@ public class TextExtractor {
         //Lấy chuỗi có chữ đầu tiên là ngày
         int prefix = 0;
         int keyWordLength = 4;
+        int endIndex = startPosition;
         switch (type){
             case _EXTRACTDAY:
                 prefix = DAYPREFIX;
@@ -303,9 +305,9 @@ public class TextExtractor {
         String dayString = stringData.substring(startPosition,startPosition + prefix);
         //Kiểm tra xem có gặp các từ khóa như "sau" "tới" "mai" "mốt" hay ko
         //Nếu có thì thay mStringData với các từ khóa trên bằng khoảng trắng
-        int date = isNextOrAfter(dayString,type);
+        int date = isNextOrAfter(dayString,type,startPosition);
         if(date != -1) {
-            mStringData = replaceString(mStringData,"   ",startPosition + keyWordLength,startPosition + keyWordLength + 4) + " ";
+            mStringData = replaceString(mStringData,"   ",startPosition,startPosition + keyWordLength) + " ";
             return date;
         }
         //Bỏ hết tất cả các chũ ra thay bằng dấu ","
@@ -320,33 +322,69 @@ public class TextExtractor {
             }
         }
 
-        return Integer.parseInt(day);
+        try {
+            date = Integer.parseInt(day);
+            endIndex = startPosition + keyWordLength + (int)(Math.log10(date)+1);
+            mStringData = removeString(mStringData,startPosition,endIndex + 1);
+        }catch (NumberFormatException e){
+            switch (type){
+                case _EXTRACTDAY:
+                    date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                    break;
+                case _EXTRACTMONTH:
+                    date = Calendar.getInstance().get(Calendar.MONTH);
+                    break;
+                case _EXTRACTYEAR:
+                    date = Calendar.getInstance().get(Calendar.YEAR);
+                    break;
+                default:
+                    date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                    break;
+            }
+        }
+
+        return date;
     }
 
 
     /**
-     * Hàm kiểm tra các từ khóa như "sau" "tới" "mai" "mốt"
+     * Hàm kiểm tra các từ khóa như "sau" "tới" "mai" "mốt","này"
      * @param stringData chuỗi được truyền vào
      * @param extractType loại kiểm tra, ngày tháng hay năm
+     * @param index index của chuỗi mStringData
      * @return dữ liệu là ngày,tháng hoặc năm tương ứng sau khi xử lý
      */
-    private int isNextOrAfter(String stringData,int extractType){
+    private int isNextOrAfter(String stringData,int extractType,int index){
+        boolean isNext = false;
+        int date  = -1;
+        int startIndex = index;
         if(stringData.contains("mai") && extractType == _EXTRACTDAY){
             mDate.set(Calendar.DAY_OF_MONTH,mDate.get(Calendar.DAY_OF_MONTH) + 1);
-            return mDate.get(Calendar.DAY_OF_MONTH);
+            isNext = true;
+            startIndex = index + stringData.indexOf("mai");
+            date = mDate.get(Calendar.DAY_OF_MONTH);
         } else if(stringData.contains("mốt") && extractType == _EXTRACTDAY){
             mDate.set(Calendar.DAY_OF_MONTH,mDate.get(Calendar.DAY_OF_MONTH) + 2);
-            return mDate.get(Calendar.DAY_OF_MONTH);
+            isNext = true;
+            startIndex = index + stringData.indexOf("mốt");
+            date = mDate.get(Calendar.DAY_OF_MONTH);
         } else if(stringData.contains("sau") || stringData.contains("tới") ){
+            isNext = true;
+            if(stringData.contains("sau"))
+                startIndex = index + stringData.indexOf("sau");
+            else
+                startIndex = index + stringData.indexOf("tới");
             switch (extractType){
                 case _EXTRACTMONTH:
                     mDate.set(Calendar.MONTH, mDate.get(Calendar.MONTH) + 1);
                     mDate.set(Calendar.DAY_OF_MONTH,1);
                     mDay = mDate.get(Calendar.DAY_OF_MONTH);
-                    return mDate.get(Calendar.MONTH) + 1;
+                    date = mDate.get(Calendar.MONTH) + 1;
+                    break;
                 case _EXTRACTYEAR:
                     mDate.set(Calendar.YEAR,mDate.get(Calendar.YEAR) + 1);
-                    return mDate.get(Calendar.YEAR);
+                    date = mDate.get(Calendar.YEAR);
+                    break;
                 case _EXTRACTWEEK:
                     //Tăng lên tới ngày đầu tiên của tuần sau
                     mDate.setFirstDayOfWeek(Calendar.MONDAY);
@@ -357,10 +395,28 @@ public class TextExtractor {
                     mDate.get(Calendar.DAY_OF_YEAR);
                     mDate.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
 
-                    return mDate.get(Calendar.DAY_OF_MONTH);
+                    date = mDate.get(Calendar.DAY_OF_MONTH);
+            }
+        }else if(stringData.contains("này")){
+            isNext = true;
+            startIndex = index + stringData.indexOf("này");
+            switch (extractType){
+                case _EXTRACTMONTH:
+                    date =  mDate.get(Calendar.MONTH) + 1;
+                    break;
+                case _EXTRACTYEAR:
+                    date = mDate.get(Calendar.YEAR);
+                    break;
+                case _EXTRACTWEEK:
+                    date = mDate.get(Calendar.DAY_OF_MONTH);
+                    break;
             }
         }
-        return  -1;
+
+        if(isNext){
+            mStringData = replaceString(mStringData," ",startIndex,startIndex + 3);
+        }
+        return  date;
     }
 
 
@@ -369,22 +425,125 @@ public class TextExtractor {
         int day = currentDay;
         String subString;
         if(index + 13 <= stringData.length())
-             subString = stringData.substring(index,index + 13);
+            subString = stringData.substring(index,index + 13);
         else subString = stringData.substring(index,stringData.length());
-        if(_checkByWeek){
-            day = convertSpecifiedStringToNumber(subString);
-            if (day > currentDay) {
-                mDate.set(Calendar.DAY_OF_WEEK, day);
-            }else{
-                mDate.set(Calendar.DAY_OF_YEAR,mDate.get(Calendar.DAY_OF_YEAR) + 7);
-                //Vì sau khi set thì ta vẫn chưa thực hiện compute lại
-                //Cho nên viết luôn 1 hàm get để tính toàn lại ngày
-                //sau đó set lên dayofweek.
-                mDate.get(Calendar.DAY_OF_YEAR);
-                mDate.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
-            }
+        //if(_checkByWeek){
+        day = convertSpecifiedStringToNumber(subString,index + 3);
+        System.out.println("Thứ " + day + " tách từ chuỗi so sánh với " + currentDay);
+        if (day > currentDay) {
+            System.out.println("Thứ " + day + " lớn hơn " + currentDay);
+            mDate.set(Calendar.DAY_OF_WEEK, day);
+            mDate.get(Calendar.DAY_OF_YEAR);
+        }else{
+            System.out.println("Thứ " + day + " nhỏ hơn " + currentDay);
+            mDate.add(Calendar.DAY_OF_YEAR,7);
+            //Vì sau khi set thì ta vẫn chưa thực hiện compute lại
+            //Cho nên viết luôn 1 hàm get để tính toàn lại ngày
+            //sau đó set lên dayofweek.
+            mDate.get(Calendar.DAY_OF_YEAR);
+            mDate.set(Calendar.DAY_OF_WEEK,day);
         }
+        // }
         return day;
+    }
+
+    /**
+     * Hàm kiểm tra xem có phải là cuối tuần,tháng,hay năm hay không
+     * @param stringData
+     * @param type
+     * @return
+     */
+    private boolean isLastDay(String stringData,int type){
+        mStringData = mStringData += "      ";
+        boolean isLast = false;
+        int startIndex = 0;
+        int endIndex = 0;
+        int stringLength = 0;
+        if(type == _EXTRACTMONTH  && (stringData.contains("cuối tháng") || stringData.contains("Cuối tháng"))){
+            //Xóa chuối này khỏi mStringData
+            {
+                if (stringData.contains("cuối tháng")) startIndex = stringData.indexOf("cuối tháng");
+                else startIndex = stringData.indexOf("Cuối tháng");
+
+                isNextOrAfter(mStringData.substring(startIndex,startIndex + 10 + 4),_EXTRACTMONTH,startIndex);
+
+                endIndex = startIndex + 10;
+                mStringData = replaceString(mStringData, " ", startIndex, endIndex);
+            }
+            isLast = true;
+            {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DAY_OF_MONTH, 1);// This is necessary to get proper results
+                cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+                mDay = cal.get(Calendar.DAY_OF_MONTH);
+                mDate.set(Calendar.DAY_OF_MONTH,mDay);
+            }
+
+        } else if(
+                ((type == _EXTRACTWEEK) && (stringData.contains("cuối tuần") || stringData.contains("Cuối tuần")))
+                        || ((type == _EXTRACTDAYOFWEEK) && (stringData.contains("chủ nhật") || stringData.contains("chúa nhật")))){
+            //Xóa chuối này khỏi mStringData
+            if(type == _EXTRACTWEEK)
+            {
+                if (stringData.contains("cuối tuần")) startIndex = stringData.indexOf("cuối tuần");
+                else startIndex = stringData.indexOf("Cuối tuần");
+                stringLength = 9;
+                isNextOrAfter(mStringData.substring(startIndex,startIndex + stringLength + 4),_EXTRACTWEEK,startIndex);
+
+                endIndex = startIndex + stringLength;
+                mStringData = replaceString(mStringData, " ", startIndex, endIndex);
+            }else if(type == _EXTRACTDAYOFWEEK){
+                if (stringData.contains("chủ nhật")) {
+                    startIndex = stringData.indexOf("chủ nhật");
+                    stringLength = 8;
+                }
+                else {
+                    startIndex = stringData.indexOf("chúa nhật");
+                    stringLength = 9;
+                }
+
+                isNextOrAfter(mStringData.substring(startIndex,startIndex + stringLength + 4),_EXTRACTWEEK,startIndex);
+
+                endIndex = startIndex + stringLength;
+                mStringData = replaceString(mStringData, " ", startIndex, endIndex);
+            }
+
+            isLast = true;
+            {
+                int dayOfWeek = mDate.get(Calendar.DAY_OF_WEEK) - mDate.getFirstDayOfWeek();
+                mDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+
+                Date weekStart = mDate.getTime();
+                // we do not need the same day a week after, that's why use 6, not 7
+                mDate.add(Calendar.DAY_OF_MONTH, 6);
+                mDate.getTime();
+            }
+
+        } else if((type == _EXTRACTYEAR) && (stringData.contains("cuối năm") || stringData.contains("Cuối năm"))){
+            //Xóa chuối này khỏi mStringData
+            {
+                if (stringData.contains("cuối năm")) startIndex = stringData.indexOf("cuối năm");
+                else startIndex = stringData.indexOf("Cuối năm");
+
+                isNextOrAfter(mStringData.substring(startIndex,startIndex + 8 + 4),_EXTRACTYEAR,startIndex);
+
+                endIndex = startIndex + 8;
+                mStringData = replaceString(mStringData, " ", startIndex, endIndex);
+            }
+            isLast = true;
+            {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.MONTH, cal.getActualMaximum(Calendar.MONTH));
+                cal.set(Calendar.DAY_OF_MONTH, 1);// This is necessary to get proper results
+                cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+                mMonth = cal.get(Calendar.MONTH);
+                mDay = cal.get(Calendar.DAY_OF_MONTH);
+                mDate.set(Calendar.MONTH,mMonth);
+                mDate.set(Calendar.DAY_OF_MONTH,mDay);
+            }
+
+        }
+        return isLast;
     }
 
     /**
@@ -392,23 +551,47 @@ public class TextExtractor {
      * @param data chuỗi đưa vào eg: "hai"
      * @return  Calendar.DAY_OF_WEEK* eg : Calendar.MONDAY
      */
-    public int convertSpecifiedStringToNumber(String data){
+    public int convertSpecifiedStringToNumber(String data,int startIndex){
         //Mặc định trả về ngày đầu tiên trong tuần
         int dayOfWeek = mDate.getFirstDayOfWeek();
+        boolean isContains = false;
+        int endIndex = startIndex;
         if(data.contains("hai") || data.contains("2")){
-            return Calendar.MONDAY;
+            isContains = true;
+            if(data.contains("2")) endIndex = startIndex + 1;
+            else endIndex = startIndex + 3;
+            dayOfWeek = Calendar.MONDAY;
         }else if(data.contains("ba") || data.contains("3")){
-            return Calendar.TUESDAY;
+            isContains = true;
+            if(data.contains("3")) endIndex = startIndex + 1;
+            else endIndex = startIndex + 2;
+            dayOfWeek = Calendar.TUESDAY;
         }else if(data.contains("tư") || data.contains("4")){
-            return Calendar.WEDNESDAY;
+            isContains = true;
+            if(data.contains("4")) endIndex = startIndex + 1;
+            else endIndex = startIndex + 2;
+            dayOfWeek = Calendar.WEDNESDAY;
         }else if(data.contains("năm") || data.contains("5")){
-            return Calendar.THURSDAY;
+            isContains = true;
+            if(data.contains("5")) endIndex = startIndex +1;
+            else endIndex = startIndex + 3;
+            dayOfWeek = Calendar.THURSDAY;
         }else if(data.contains("sáu") || data.contains("6")){
-            return Calendar.FRIDAY;
+            isContains = true;
+            if(data.contains("6")) endIndex = startIndex + 1;
+            else endIndex = startIndex  + 3;
+            dayOfWeek = Calendar.FRIDAY;
         }else if(data.contains("bảy") || data.contains("7")){
-            return Calendar.SATURDAY;
+            isContains = true;
+            if(data.contains("7")) endIndex = startIndex + 1;
+            else endIndex = startIndex  + 3;
+            dayOfWeek = Calendar.SATURDAY;
         }else if(data.contains("chủ nhật")){
-            return Calendar.SUNDAY;
+            isContains = true;
+            dayOfWeek = Calendar.SUNDAY;
+        }
+        if(isContains) {
+            mStringData = replaceString(mStringData, " ", startIndex -3, endIndex + 1);
         }
         return dayOfWeek;
     }
@@ -449,7 +632,7 @@ public class TextExtractor {
 
     /**
      * Hàm dùng để loại bỏ tất removeString từ stringData
-        Bắt đầu từ startindex và kết thúc ở endindex
+     Bắt đầu từ startindex và kết thúc ở endindex
      * @param stringData chuỗi cần xử lý
      * @param removeString chuỗi cần loại bỏ
      * @param startIndex vị trí bắt đầu trên @stringData
@@ -484,8 +667,8 @@ public class TextExtractor {
      */
     private String removeString(String stringData,int startIndex,int endIndex){
 
-         return stringData.substring(0,startIndex)
-                    + stringData.substring(endIndex,stringData.length());
+        return stringData.substring(0,startIndex)
+                + stringData.substring(endIndex,stringData.length());
     }
 
 

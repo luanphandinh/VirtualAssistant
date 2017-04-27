@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -17,7 +20,9 @@ import android.widget.Toast;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,26 +32,55 @@ public class ScheduleActivity extends AppCompatActivity {
     private boolean undo = false;
     private CaldroidFragment caldroidFragment;
     private CaldroidFragment dialogCaldroidFragment;
+    private ScheduleHelper scheduleDB;
+    private ArrayList<String> schduleList;
+    private ArrayList<String> actionList;
+    private Looper mLooper;
+    private Handler mHandler;
 
-    private void setCustomResourceForDates() {
+    private void setCustomResourceForDates() throws ParseException {
         Calendar cal = Calendar.getInstance();
 
-        // Min date is last 7 days
-        cal.add(Calendar.DATE, -8);
-        Date blueDate = cal.getTime();
+//        // Min date is last 7 days
+//        cal.add(Calendar.DATE, -8);
+//        Date blueDate = cal.getTime();
+//
+//        // Max date is next 7 days
+//        cal = Calendar.getInstance();
+//        cal.add(Calendar.DATE, 7);
+//        Date greenDate = cal.getTime();
 
-        // Max date is next 7 days
-        cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 7);
-        Date greenDate = cal.getTime();
+        schduleList = scheduleDB.getAllSchedule();
+        ArrayList<String> stringDates;
+        ArrayList<Date> dates;
+        int size = 0;
+        if(schduleList.size() > 0)
+            size = schduleList.size();
+        else return;
+        stringDates = schduleList;
+        dates = new ArrayList<>(size);
+
+        for(int i = 0; i < stringDates.size();i ++){
+            String sDate = stringDates.get(i);
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(sDate);
+            Log.d("Lay Data",date.toString());
+            dates.add(date);
+        }
+
 
         if (caldroidFragment != null) {
             ColorDrawable red = new ColorDrawable(getResources().getColor(R.color.red));
             ColorDrawable green = new ColorDrawable(Color.GREEN);
-            caldroidFragment.setBackgroundDrawableForDate(red, blueDate);
-            caldroidFragment.setBackgroundDrawableForDate(green, greenDate);
-            caldroidFragment.setTextColorForDate(R.color.white, blueDate);
-            caldroidFragment.setTextColorForDate(R.color.white, greenDate);
+            for(int i = 0; i < dates.size();i ++) {
+                if(dates.get(i).compareTo(cal.getTime()) < 0) {
+                    caldroidFragment.setBackgroundDrawableForDate(red, dates.get(i));
+
+                }else{
+                    caldroidFragment.setBackgroundDrawableForDate(green, dates.get(i));
+                }
+                caldroidFragment.setTextColorForDate(R.color.white, dates.get(i));
+            }
+
         }
     }
 
@@ -57,6 +91,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
         final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
+        scheduleDB = new ScheduleHelper(this);
         // Setup caldroid fragment
         // **** If you want normal CaldroidFragment, use below line ****
         caldroidFragment = new CaldroidFragment();
@@ -94,7 +129,11 @@ public class ScheduleActivity extends AppCompatActivity {
             caldroidFragment.setArguments(args);
         }
 
-        setCustomResourceForDates();
+        try {
+            setCustomResourceForDates();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Attach to the activity
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
@@ -108,7 +147,7 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getApplicationContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
-                displayActions(null);
+                displayActions(date);
             }
 
             @Override
@@ -142,7 +181,13 @@ public class ScheduleActivity extends AppCompatActivity {
 
     private void displayActions(Date date){
         TextView action = (TextView) findViewById(R.id.action);
-        action.setText("Tôi muốn đi chơi với bạn!");
+        String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        actionList = scheduleDB.getAllActions(stringDate,stringDate);
+        String stringAction = "";
+        for(int i = 0;i < actionList.size();i++){
+            stringAction += actionList.get(i) + '\n';
+        }
+        action.setText(stringAction);
     }
 
     /**
