@@ -2,9 +2,11 @@ package chongxuocmanhinh.virtualassistant;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ListeningActivity {
 
     private final int SPEECH_RECOGNITION_CODE = 1;
     private TextView txtOutput;
@@ -31,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private DateExtractor extractor;
     private SentenceRebuilder sentenceRebuilder;
     //===========================================================
+    private final int FLAG_LISTENING = 21;
+    private final int FLAG_STOP = 31;
+    private int listeningFlag = FLAG_STOP;
+    //===========================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
         sentenceRebuilder = new SentenceRebuilder();
         txtOutput = (TextView) findViewById(R.id.txt_output);
         btnMicrophone = (ImageButton) findViewById(R.id.btn_mic);
+        changeBtnListeningIcon(listeningFlag);
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startSpeechToText();
+                clickBtnListening();
             }
         });
 
@@ -68,6 +75,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+        // 3 dòng này dùng để hỗ trợ cho việc nhận diện giọng nói
+        context = getApplicationContext(); // Needs to be set
+        VoiceRecognitionListener.getInstance().setListener(this); // Gán mainActivity để nghe
+
+    }
+
+    @Override
+    public void processVoiceCommands(String... voiceCommands) {
+        for (String command : voiceCommands) {
+            sentenceRebuilder.setString(command);
+            String text1 = sentenceRebuilder.getExtractor().getDate();
+            String text2 = sentenceRebuilder.getExtractor().getAction();
+
+            if(scheduleDB.insertSchedule(text1,text2))
+                txtOutput.setText(text1 + "\n" + text2);
+        }
+        restartListeningService();
     }
 
     @Override
@@ -76,56 +102,27 @@ public class MainActivity extends AppCompatActivity {
         sentenceRebuilder.setClauseData(customizedScheduleHelper.getAllCustomizedSchedule());
     }
 
-    /**
-     * Start speech to text intent. This opens up Google Speech Recognition API dialog box to listen the speech input.
-     * */
-    private void startSpeechToText() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Speak something...");
-        try {
-            startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
-        } catch (ActivityNotFoundException a) {
-            Toast.makeText(getApplicationContext(),
-                    "Sorry! Speech recognition is not supported in this device.",
-                    Toast.LENGTH_SHORT).show();
+    private void clickBtnListening(){
+        if(listeningFlag == FLAG_STOP){
+            listeningFlag = FLAG_LISTENING;
+            startListening();
+        }else if (listeningFlag == FLAG_LISTENING){
+            listeningFlag = FLAG_STOP;
+            stopListening();
         }
+        changeBtnListeningIcon(listeningFlag);
     }
-    /**
-     * Callback for speech recognition activity
-     * */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case SPEECH_RECOGNITION_CODE: {
-                if (resultCode == RESULT_OK && null != data) {
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String text = result.get(0);
-                    //if(text.equals("my name is gerrick"))
-//                    extractor.setData(text);
-//                    extractor.extract();
-//                    String text1 = extractor.getDate();
-//                    String text2 = extractor.getAction();
-//
-//                    if(scheduleDB.insertSchedule(text1,text2))
-//                        txtOutput.setText(text1 + "\n" + text2);
-                    sentenceRebuilder.setString(text);
-                    String text1 = sentenceRebuilder.getExtractor().getDate();
-                    String text2 = sentenceRebuilder.getExtractor().getAction();
 
-                    if(scheduleDB.insertSchedule(text1,text2))
-                        txtOutput.setText(text1 + "\n" + text2);
-                }
+    private void changeBtnListeningIcon(int flag){
+        switch (flag){
+            case FLAG_LISTENING:
+                btnMicrophone.setImageResource(R.mipmap.ic_x_round);
                 break;
-            }
+            case FLAG_STOP:
+                btnMicrophone.setImageResource(R.mipmap.ic_microphone);
+                break;
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
