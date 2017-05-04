@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,16 +21,22 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtOutput;
     private ImageButton btnMicrophone;
     private ImageButton btnSchedule;
-    private TextExtractor extractor;
+    private ImageButton btnCustomize;
+
     private ScheduleHelper scheduleDB;
+    private CustomizedScheduleHelper customizedScheduleHelper;
     //===========================================================
     private ArrayList<String> listActions;
+    //===========================================================
+    private DateExtractor extractor;
+    private SentenceRebuilder sentenceRebuilder;
     //===========================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        extractor = new TextExtractor();
+        extractor = new DateExtractor();
+        sentenceRebuilder = new SentenceRebuilder();
         txtOutput = (TextView) findViewById(R.id.txt_output);
         btnMicrophone = (ImageButton) findViewById(R.id.btn_mic);
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 startSpeechToText();
             }
         });
+
         scheduleDB = new ScheduleHelper(this);
+        customizedScheduleHelper = new CustomizedScheduleHelper(this);
+        sentenceRebuilder.setClauseData(customizedScheduleHelper.getAllCustomizedSchedule());
+
         btnSchedule = (ImageButton)findViewById(R.id.btn_schedule);
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +58,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnCustomize = (ImageButton)findViewById(R.id.btn_customize);
+        btnCustomize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CustomizeStringActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sentenceRebuilder.setClauseData(customizedScheduleHelper.getAllCustomizedSchedule());
+    }
+
     /**
      * Start speech to text intent. This opens up Google Speech Recognition API dialog box to listen the speech input.
      * */
@@ -81,9 +107,16 @@ public class MainActivity extends AppCompatActivity {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String text = result.get(0);
                     //if(text.equals("my name is gerrick"))
-                    extractor.setStringData(text);
-                    String text1 = extractor.getDate();
-                    String text2 = extractor.getAction();
+//                    extractor.setData(text);
+//                    extractor.extract();
+//                    String text1 = extractor.getDate();
+//                    String text2 = extractor.getAction();
+//
+//                    if(scheduleDB.insertSchedule(text1,text2))
+//                        txtOutput.setText(text1 + "\n" + text2);
+                    sentenceRebuilder.setString(text);
+                    String text1 = sentenceRebuilder.getExtractor().getDate();
+                    String text2 = sentenceRebuilder.getExtractor().getAction();
 
                     if(scheduleDB.insertSchedule(text1,text2))
                         txtOutput.setText(text1 + "\n" + text2);
@@ -92,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

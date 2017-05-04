@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chongxuocmanhinh.virtualassistant.AddCustomizedStringActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--KEY-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"  >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/key"
+                android:textSize="20sp" />
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/txtKey"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent">
+            </EditText>
+            <ImageButton
+                android:id="@+id/btn_edit_key"
+                android:src="@drawable/micro"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+            </ImageButton>
+        </LinearLayout>
+
+        <!--KEY-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"  >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/value"
+                android:textSize="20sp" />
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/txtValue"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent">
+            </EditText>
+            <ImageButton
+                android:id="@+id/btn_edit_value"
+                android:src="@drawable/micro"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+            </ImageButton>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/addCustomizedString"/>
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/updateCustomizedString"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

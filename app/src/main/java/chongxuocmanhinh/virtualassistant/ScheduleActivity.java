@@ -1,6 +1,7 @@
 package chongxuocmanhinh.virtualassistant;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,10 @@ public class ScheduleActivity extends AppCompatActivity {
     private ArrayList<String> actionList;
     private Looper mLooper;
     private Handler mHandler;
+
+    Button deletButton;
+    Button addButton;
+    String selectedDate;
 
     private void setCustomResourceForDates() throws ParseException {
         Calendar cal = Calendar.getInstance();
@@ -177,6 +183,25 @@ public class ScheduleActivity extends AppCompatActivity {
 
         // Setup Caldroid
         caldroidFragment.setCaldroidListener(listener);
+
+//        // Setup Buttons
+//        addButton = (Button) findViewById(R.id.btn_add);
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//
+//        deletButton = (Button) findViewById(R.id.btn_delete);
+//        deletButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ScheduleActivity.this, EraseScheduleActivity.class);
+//                intent.putExtra("date",selectedDate);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void displayActions(Date date){

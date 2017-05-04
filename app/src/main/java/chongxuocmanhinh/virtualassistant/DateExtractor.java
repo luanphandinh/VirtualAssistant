@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Created by L on 11/04/2017.
  */
-public class TextExtractor {
+public class DateExtractor {
 
     static int DAYPREFIX = 8;
     static int MONTHPREFIX = 9;
@@ -26,11 +26,11 @@ public class TextExtractor {
     Boolean _checkByDayofWeek = false;
     int mLastWordLength = 0;
 
-    public TextExtractor(String stringData) {
-        setStringData(stringData);
+    public DateExtractor(String stringData) {
+        setData(stringData);
     }
 
-    public TextExtractor() {
+    public DateExtractor() {
     }
 
     private void resetValues(){
@@ -43,11 +43,19 @@ public class TextExtractor {
         return mStringData;
     }
 
-    public void setStringData(String stringData) {
+    public void setData(String stringData) {
         //Tăng thêm 1 vài khoảng trắng ở đầu và cuối chuỗi cho việc lọc ngày tháng dễ dàng
         this.mStringData ="  " + stringData + "  ";
         resetValues();
-        this.extract();
+        //this.extract();
+    }
+
+    public void setData(String stringData,Calendar calendar) {
+        //Tăng thêm 1 vài khoảng trắng ở đầu và cuối chuỗi cho việc lọc ngày tháng dễ dàng
+        this.mStringData ="  " + stringData + "  ";
+        resetValues();
+        mDate = calendar;
+        //this.extract();
     }
 
     public String getDate() {
@@ -270,6 +278,9 @@ public class TextExtractor {
 
     /**
      * Tách ngày tháng năm ra khỏi chuỗi đc truyền vào tùy thuộc vào type
+     * Hàm xử lý với giá trị nằm sau chữ ngày ,tháng ,năm thương là lấy 3-4 chữ sau đó
+     * Nếu có sau mai mốt thì trả về,ko thì lây số đằng sau,sau đó xóa luôn chuỗi
+     * Vd "Ngầy mai" test xong xóa luôn
      * @param stringData chuỗi cần xử lý
      * @param type loại kiểm tra, ngày tháng hay năm là 1 trong 3 kiểu _EXTRACTDAY,MONTH,YEAR
      * @param startPosition
@@ -481,7 +492,7 @@ public class TextExtractor {
 
         } else if(
                 ((type == _EXTRACTWEEK) && (stringData.contains("cuối tuần") || stringData.contains("Cuối tuần")))
-                        || ((type == _EXTRACTDAYOFWEEK) && (stringData.contains("chủ nhật") || stringData.contains("chúa nhật")))){
+                        || ((type == _EXTRACTDAYOFWEEK) && (stringData.contains("chủ nhật") || stringData.contains("chúa nhật") || stringData.contains("Chúa nhật") || stringData.contains("Chủ nhật")))){
             //Xóa chuối này khỏi mStringData
             if(type == _EXTRACTWEEK)
             {
@@ -496,6 +507,14 @@ public class TextExtractor {
                 if (stringData.contains("chủ nhật")) {
                     startIndex = stringData.indexOf("chủ nhật");
                     stringLength = 8;
+                }
+                else if(stringData.contains("Chủ nhật")){
+                    startIndex = stringData.indexOf("Chủ nhật");
+                    stringLength = 8;
+                }
+                else if(stringData.contains("Chúa nhật")){
+                    startIndex = stringData.indexOf("Chúa nhật");
+                    stringLength = 9;
                 }
                 else {
                     startIndex = stringData.indexOf("chúa nhật");

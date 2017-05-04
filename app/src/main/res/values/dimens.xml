@@ -4,5 +4,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="cover_size">44sp</dimen>
+    <dimen name="cover_padding">0sp</dimen>
+    <dimen name="pmark_size">4sp</dimen>
+    <dimen name="cover_padding_with_pmark">0sp</dimen>
+    <dimen name="text_padding">5sp</dimen>
+    <dimen name="row_normal_height">44sp</dimen>
 
 </resources>

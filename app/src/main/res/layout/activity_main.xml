@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:orientation="vertical" >
+    android:background="@drawable/background"
+    android:orientation="vertical">
  
     <TextView
         android:id="@+id/txt_output"
@@ -34,6 +34,14 @@
 
         <ImageButton
             android:id="@+id/btn_schedule"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_calendar" />
+
+        <ImageButton
+            android:id="@+id/btn_customize"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@null"
