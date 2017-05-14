@@ -3,6 +3,7 @@ package chongxuocmanhinh.virtualassistant;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,9 +25,9 @@ public class MainActivity extends ListeningActivity {
 
     private final int SPEECH_RECOGNITION_CODE = 1;
     private TextView txtOutput;
-    private ImageButton btnMicrophone;
-    private ImageButton btnSchedule;
-    private ImageButton btnCustomize;
+    private ImageView btnMicrophone;
+    private LinearLayout btnSchedule;
+    private LinearLayout btnCustomize;
 
     private ScheduleHelper scheduleDB;
     private CustomizedScheduleHelper customizedScheduleHelper;
@@ -44,7 +48,7 @@ public class MainActivity extends ListeningActivity {
         extractor = new DateExtractor();
         sentenceRebuilder = new SentenceRebuilder();
         txtOutput = (TextView) findViewById(R.id.txt_output);
-        btnMicrophone = (ImageButton) findViewById(R.id.btn_mic);
+        btnMicrophone = (ImageView) findViewById(R.id.micro);
         changeBtnListeningIcon(listeningFlag);
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +61,7 @@ public class MainActivity extends ListeningActivity {
         customizedScheduleHelper = new CustomizedScheduleHelper(this);
         sentenceRebuilder.setClauseData(customizedScheduleHelper.getAllCustomizedSchedule());
 
-        btnSchedule = (ImageButton)findViewById(R.id.btn_schedule);
+        btnSchedule = (LinearLayout)findViewById(R.id.layout_schedule);
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +70,7 @@ public class MainActivity extends ListeningActivity {
             }
         });
 
-        btnCustomize = (ImageButton)findViewById(R.id.btn_customize);
+        btnCustomize = (LinearLayout)findViewById(R.id.layout_customized);
         btnCustomize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,10 +120,10 @@ public class MainActivity extends ListeningActivity {
     private void changeBtnListeningIcon(int flag){
         switch (flag){
             case FLAG_LISTENING:
-                btnMicrophone.setImageResource(R.mipmap.ic_x_round);
+                btnMicrophone.setImageResource(R.drawable.cancel);
                 break;
             case FLAG_STOP:
-                btnMicrophone.setImageResource(R.mipmap.ic_microphone);
+                btnMicrophone.setImageResource(R.drawable.micro_big);
                 break;
         }
     }

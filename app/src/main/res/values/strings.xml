@@ -7,6 +7,8 @@
     <string name="add">Thêm lịch</string>
     <string name="addCustomizedString">Thêm tùy chỉnh</string>
     <string name="updateCustomizedString">Sửa tùy chỉnh</string>
+    <string name="customizedString">Người dùng tùy chỉnh</string>
+    <string name="showSchedule">Hiển thị lịch</string>
     <string name="delete">Xóa lịch</string>
     <string name="key">Từ khóa : </string>
     <string name="value">Giá trị : </string>
