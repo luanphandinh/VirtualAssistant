@@ -28,12 +28,13 @@ public class DateExtractor {
 
     public DateExtractor(String stringData) {
         setData(stringData);
+        mDate = Calendar.getInstance();
     }
 
     public DateExtractor() {
     }
 
-    private void resetValues(){
+    public void resetValues(){
         mFirstDayIndex = 9999;
         mLastDayIndex = 0;
         mDate = Calendar.getInstance();
@@ -46,14 +47,12 @@ public class DateExtractor {
     public void setData(String stringData) {
         //Tăng thêm 1 vài khoảng trắng ở đầu và cuối chuỗi cho việc lọc ngày tháng dễ dàng
         this.mStringData ="  " + stringData + "  ";
-        resetValues();
         //this.extract();
     }
 
     public void setData(String stringData,Calendar calendar) {
         //Tăng thêm 1 vài khoảng trắng ở đầu và cuối chuỗi cho việc lọc ngày tháng dễ dàng
         this.mStringData ="  " + stringData + "  ";
-        resetValues();
         mDate = calendar;
         //this.extract();
     }
@@ -441,7 +440,7 @@ public class DateExtractor {
         //if(_checkByWeek){
         day = convertSpecifiedStringToNumber(subString,index + 3);
         System.out.println("Thứ " + day + " tách từ chuỗi so sánh với " + currentDay);
-        if (day > currentDay) {
+        if (day >= currentDay) {
             System.out.println("Thứ " + day + " lớn hơn " + currentDay);
             mDate.set(Calendar.DAY_OF_WEEK, day);
             mDate.get(Calendar.DAY_OF_YEAR);

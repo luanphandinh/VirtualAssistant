@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class ScheduleHelper {
     public static final String SCHEDULE_TABLE_NAME = "schedule";
     public static final String SCHEDULE_COLUMN_ID = "id";
-    public static final String SCHEDULE_COLUMN_DATE = "name";
-    public static final String SCHEDULE_COLUMN_ACTION = "email";
+    public static final String SCHEDULE_COLUMN_DATE = "date";
+    public static final String SCHEDULE_COLUMN_ACTION = "action";
 
     public static final String DB_PROCESS_CREATE =
             "create table "
@@ -33,15 +33,15 @@ public class ScheduleHelper {
         dbHelper = new DBHelper(context);
     }
 
-    public boolean insertSchedule(String date, String action){
+    public int insertSchedule(String date, String action){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(SCHEDULE_COLUMN_ACTION, action);
         contentValues.put(SCHEDULE_COLUMN_DATE, date);
-        db.insert(SCHEDULE_TABLE_NAME, null, contentValues);
+        int id  = (int) db.insert(SCHEDULE_TABLE_NAME, null, contentValues);
         db.close();
-        return true;
+        return id;
     }
 
     public Cursor getData(int id) {
@@ -56,16 +56,29 @@ public class ScheduleHelper {
         Log.d("Lay Data","Bat dau lay");
         //hp = new HashMap();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        Cursor res =  db.rawQuery(
+//                "select " +SCHEDULE_COLUMN_ACTION + " from " + SCHEDULE_TABLE_NAME +
+//                        " where " + SCHEDULE_COLUMN_DATE + " between "
+//                        + "'" + beginDay + "'" +" and " + "'" + endDay + "'"
+//                , null );
         Cursor res =  db.rawQuery(
-                "select " +SCHEDULE_COLUMN_ACTION + " from " + SCHEDULE_TABLE_NAME +
-                        " where " + SCHEDULE_COLUMN_DATE + " between "
+                "select " +  LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_START_TIME + ", "
+                        + LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_END_TIME + ", "
+                        + SCHEDULE_COLUMN_ACTION
+                        + " from " + SCHEDULE_TABLE_NAME + "," + LengthOfTimeHelper.LENGTH_OF_TIME_TABLE_NAME
+                        + " where " + ScheduleHelper.SCHEDULE_TABLE_NAME +"." +ScheduleHelper.SCHEDULE_COLUMN_ID + " = " + LengthOfTimeHelper.SCHEDULE_COLUMN_ID
+                        + " and " + SCHEDULE_COLUMN_DATE + " between "
                         + "'" + beginDay + "'" +" and " + "'" + endDay + "'"
                 , null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
-            Log.d("Lay Data",res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
+            array_list.add(res.getString(res.getColumnIndex(LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_START_TIME))
+                    + "-"
+                    + res.getString(res.getColumnIndex(LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_END_TIME))
+                    + " : "
+                    + res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
+//            Log.d("Lay Data",res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
             res.moveToNext();
         }
 
@@ -73,6 +86,30 @@ public class ScheduleHelper {
         db.close();
         return array_list;
     }
+
+//    public ArrayList<Schedule> getAllActions(String beginDay){
+//        ArrayList<String> array_list = new ArrayList<String>();
+//        Log.d("Lay Data","Bat dau lay");
+//        //hp = new HashMap();
+//        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        Cursor res =  db.rawQuery(
+//                "select *" + " from " + SCHEDULE_TABLE_NAME +
+//                        " where " + SCHEDULE_COLUMN_DATE + " between "
+//                        + "'" + beginDay + "'" +" and " + "'" + beginDay + "'"
+//                , null );
+//        res.moveToFirst();
+//        Schedule schedule = null;
+//        while(res.isAfterLast() == false){
+//
+//            array_list.add(res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
+//            Log.d("Lay Data",res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
+//            res.moveToNext();
+//        }
+//
+//        res.close();
+//        db.close();
+//        return array_list;
+//    }
 
     public Cursor getData(String beginDay,String endDay){
         ArrayList<String> array_list = new ArrayList<String>();

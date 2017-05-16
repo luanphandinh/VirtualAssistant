@@ -1,5 +1,6 @@
 package chongxuocmanhinh.virtualassistant;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,7 +12,8 @@ public class SentenceRebuilder {
     private HashMap<String,String> _userCustomizedStringData;
     private String _stringData;
     private SupportCaculateDate supportCalculateDate;
-    DateExtractor extractor = new DateExtractor();
+    TimeExtractor  timeExtractor = new TimeExtractor();
+    DateExtractor dateExtractor = new DateExtractor();
 
     public SentenceRebuilder(){
         supportCalculateDate = new SupportCaculateDate();
@@ -47,6 +49,8 @@ public class SentenceRebuilder {
      */
     public void rebuild(){
         StringBuffer buffer = new StringBuffer(_stringData);
+        dateExtractor.resetValues();
+        timeExtractor.resetValues();
         for(String key : _userCustomizedStringData.keySet()){
             if(_stringData.contains(key)){
                 int start = _stringData.indexOf(key);
@@ -59,21 +63,29 @@ public class SentenceRebuilder {
                 if(supportCalculateDate.caculateDate()){
                     buffer.replace(start,end,"");
                     _stringData = buffer.toString();
-                    extractor.setData(_stringData,supportCalculateDate.getCalendar());
-                    extractor.extract();
+                    dateExtractor.setData(_stringData,supportCalculateDate.getCalendar());
+                    //dateExtractor.extract();
                     return;
                 }else{
-                    buffer.replace(start,end,_userCustomizedStringData.get(key));
+                    _stringData = buffer.replace(start,end,_userCustomizedStringData.get(key)).toString();
                 }
             }
         }
         _stringData = buffer.toString();
-        extractor.setData(_stringData);
-        extractor.extract();
+        timeExtractor.setStringData(_stringData + " ");
+        if(timeExtractor.extract()){
+            _stringData = timeExtractor.getStringData();
+        }
+        dateExtractor.setData(_stringData);
+        dateExtractor.extract();
     }
 
-    public DateExtractor getExtractor(){
-        return extractor;
+    public DateExtractor getDateExtractor(){
+        return dateExtractor;
+    }
+
+    public TimeExtractor getTimeExtractor(){
+        return timeExtractor;
     }
 
     public void printMap() {

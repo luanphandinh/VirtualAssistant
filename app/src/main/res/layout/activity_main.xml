@@ -4,7 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
-
+    <TextView
+        android:id="@+id/txt_output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:textStyle="normal" />
     <ImageView
         android:id="@+id/micro"
         android:layout_width="100dp"
@@ -25,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:id="@+id/content"
             >
             <LinearLayout
                 android:id="@+id/layout_schedule"
@@ -83,14 +93,5 @@
                 android:background="#5fff"></LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <TextView
-        android:id="@+id/txt_output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="380dp"
-        android:textColor="@color/white"
-        android:textSize="26dp"
-        android:textStyle="normal" />
+
 </RelativeLayout>

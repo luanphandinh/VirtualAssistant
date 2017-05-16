@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Speech To Text</string>
+    <string name="app_name">Trợ lý xếp lịch</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_schedule">Schedule</string>
@@ -12,4 +12,6 @@
     <string name="delete">Xóa lịch</string>
     <string name="key">Từ khóa : </string>
     <string name="value">Giá trị : </string>
+    <string name="permission_request_summary">Ứng dụng trợ lý ảo xếp lịch cần quyền truy cập bô nhớ của máy bạn</string>
+
 </resources>

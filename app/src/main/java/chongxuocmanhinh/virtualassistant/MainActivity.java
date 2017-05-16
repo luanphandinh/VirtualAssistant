@@ -1,25 +1,15 @@
 package chongxuocmanhinh.virtualassistant;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainActivity extends ListeningActivity {
 
@@ -30,6 +20,7 @@ public class MainActivity extends ListeningActivity {
     private LinearLayout btnCustomize;
 
     private ScheduleHelper scheduleDB;
+    private LengthOfTimeHelper lengthOfTimeDB;
     private CustomizedScheduleHelper customizedScheduleHelper;
     //===========================================================
     private ArrayList<String> listActions;
@@ -57,7 +48,11 @@ public class MainActivity extends ListeningActivity {
             }
         });
 
+        if(PermissionRequestActivity.havePermissions(this) == false) {
+            PermissionRequestActivity.showWarning(this, getIntent());
+        }
         scheduleDB = new ScheduleHelper(this);
+        lengthOfTimeDB = new LengthOfTimeHelper(this);
         customizedScheduleHelper = new CustomizedScheduleHelper(this);
         sentenceRebuilder.setClauseData(customizedScheduleHelper.getAllCustomizedSchedule());
 
@@ -91,11 +86,15 @@ public class MainActivity extends ListeningActivity {
     public void processVoiceCommands(String... voiceCommands) {
         for (String command : voiceCommands) {
             sentenceRebuilder.setString(command);
-            String text1 = sentenceRebuilder.getExtractor().getDate();
-            String text2 = sentenceRebuilder.getExtractor().getAction();
-
-            if(scheduleDB.insertSchedule(text1,text2))
-                txtOutput.setText(text1 + "\n" + text2);
+            String text1 = sentenceRebuilder.getDateExtractor().getDate();
+            String text2 = sentenceRebuilder.getDateExtractor().getAction();
+            String text3 = sentenceRebuilder.getTimeExtractor().getStartTime().toString();
+            String text4 = sentenceRebuilder.getTimeExtractor().getEndTime().toString();
+            int id = scheduleDB.insertSchedule(text1,text2);
+            if( id != -1) {
+                txtOutput.setText(text1 + "\n" + text2 + "\n" + text3 + " - " + text4);
+                lengthOfTimeDB.insertLengthOfTime(id,text3,text4);
+            }
         }
         restartListeningService();
     }

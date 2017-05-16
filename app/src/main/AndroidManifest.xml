@@ -29,6 +29,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".EraseScheduleActivity" />
         <activity android:name=".CustomizeStringActivity" />
+        <activity android:name=".PermissionRequestActivity" />
         <activity android:name=".AddCustomizedStringActivity"></activity>
     </application>
 

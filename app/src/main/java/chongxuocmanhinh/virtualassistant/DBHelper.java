@@ -23,16 +23,20 @@ public class DBHelper extends SQLiteOpenHelper{
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.execSQL("PRAGMA foreign_keys = ON;");
             db.execSQL(ScheduleHelper.DB_PROCESS_CREATE);
             db.execSQL(CustomizedScheduleHelper.DB_PROCESS_CREATE);
-            insertDefaultCustomizedSchedule(db,"Ngày tôi thích nhất","ngày 10 tháng 5");
+            db.execSQL(LengthOfTimeHelper.DB_PROCESS_CREATE);
             insertDefaultCustomizedSchedule(db,"ngày tôi thích nhất","ngày 10 tháng 5");
+            insertDefaultCustomizedSchedule(db,"đầu tuần sau","thứ 2 tuần sau");
+            insertDefaultCustomizedSchedule(db,"cuối tuần sau","chủ nhật tuần sau");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             db.execSQL("DROP TABLE IF EXISTS schedule");
             db.execSQL("DROP TABLE IF EXISTS customizedSchedule");
+            db.execSQL("DROP TABLE IF EXISTS lengthOfTime");
             onCreate(db);
         }
 
