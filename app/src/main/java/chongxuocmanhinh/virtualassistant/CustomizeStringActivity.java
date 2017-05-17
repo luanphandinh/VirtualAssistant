@@ -11,17 +11,17 @@ import java.util.ArrayList;
 
 public class CustomizeStringActivity extends AppCompatActivity {
 
-    CustomizedScheduleHelper _customizedScheduleHelper;
-    LinearLayout addNewCustomizedString;
+    CustomizedStringHelper _customizedScheduleHelper;
+    LinearLayout addNewCustomizedStringLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customize_string);
-        _customizedScheduleHelper = new CustomizedScheduleHelper(this);
+        _customizedScheduleHelper = new CustomizedStringHelper(this);
         populateCustomziedStringList();
 
-        addNewCustomizedString = (LinearLayout) findViewById(R.id.add_new_customized_string_layout);
-        addNewCustomizedString.setOnClickListener(new View.OnClickListener() {
+        addNewCustomizedStringLayout = (LinearLayout) findViewById(R.id.add_new_customized_string_layout);
+        addNewCustomizedStringLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CustomizeStringActivity.this, AddCustomizedStringActivity.class);

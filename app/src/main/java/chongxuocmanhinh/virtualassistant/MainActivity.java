@@ -21,7 +21,7 @@ public class MainActivity extends ListeningActivity {
 
     private ScheduleHelper scheduleDB;
     private LengthOfTimeHelper lengthOfTimeDB;
-    private CustomizedScheduleHelper customizedScheduleHelper;
+    private CustomizedStringHelper customizedScheduleHelper;
     //===========================================================
     private ArrayList<String> listActions;
     //===========================================================
@@ -53,7 +53,7 @@ public class MainActivity extends ListeningActivity {
         }
         scheduleDB = new ScheduleHelper(this);
         lengthOfTimeDB = new LengthOfTimeHelper(this);
-        customizedScheduleHelper = new CustomizedScheduleHelper(this);
+        customizedScheduleHelper = new CustomizedStringHelper(this);
         sentenceRebuilder.setClauseData(customizedScheduleHelper.getAllCustomizedSchedule());
 
         btnSchedule = (LinearLayout)findViewById(R.id.layout_schedule);
@@ -90,11 +90,8 @@ public class MainActivity extends ListeningActivity {
             String text2 = sentenceRebuilder.getDateExtractor().getAction();
             String text3 = sentenceRebuilder.getTimeExtractor().getStartTime().toString();
             String text4 = sentenceRebuilder.getTimeExtractor().getEndTime().toString();
-            int id = scheduleDB.insertSchedule(text1,text2);
-            if( id != -1) {
-                txtOutput.setText(text1 + "\n" + text2 + "\n" + text3 + " - " + text4);
-                lengthOfTimeDB.insertLengthOfTime(id,text3,text4);
-            }
+            int id = scheduleDB.insertSchedule(text1,text2,text3,text4);
+            txtOutput.setText(text1 + "\n" + text2 + "\n" + text3 + " - " + text4);
         }
         restartListeningService();
     }

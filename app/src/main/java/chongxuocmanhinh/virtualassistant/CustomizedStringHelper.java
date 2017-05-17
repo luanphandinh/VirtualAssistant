@@ -14,7 +14,7 @@ import java.util.HashMap;
  * Created by L on 01/05/2017.
  */
 
-public class CustomizedScheduleHelper  {
+public class CustomizedStringHelper {
 
     public static final String CUSTOMIZEDSCHEDULE_TABLE_NAME = "customizedSchedule";
     public static final String CUSTOMIZEDSCHEDULE_COLUMN_ID = "id";
@@ -29,7 +29,7 @@ public class CustomizedScheduleHelper  {
                     + CUSTOMIZEDSCHEDULE_COLUMN_VALUE + " text)";
 
     DBHelper dbHelper;
-    public CustomizedScheduleHelper(Context context) {
+    public CustomizedStringHelper(Context context) {
         dbHelper = new DBHelper(context);
     }
 

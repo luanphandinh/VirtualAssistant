@@ -32,12 +32,12 @@ public class AddCustomizedStringActivity extends AppCompatActivity {
     Button btnUpdateCustomizedString;
     int idToUpdate;
 
-    CustomizedScheduleHelper customizedScheduleHelper;
+    CustomizedStringHelper customizedScheduleHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_customized_string);
-        customizedScheduleHelper = new CustomizedScheduleHelper(this);
+        customizedScheduleHelper = new CustomizedStringHelper(this);
         txtKey = (EditText) findViewById(R.id.txtKey);
         txtValue = (EditText) findViewById(R.id.txtValue);
         btnAddKey = (ImageButton) findViewById(R.id.btn_edit_key);

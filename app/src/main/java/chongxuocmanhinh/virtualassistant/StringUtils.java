@@ -1,5 +1,11 @@
 package chongxuocmanhinh.virtualassistant;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /**
  * Created by L on 03/05/2017.
  */
@@ -73,5 +79,21 @@ public class StringUtils {
         finalString = finalString.replaceAll("(^\\s+|\\s+$)", "");
 
         return finalString;
+    }
+
+    public static String convertTimeToString(Time time){
+        Format formatter = new SimpleDateFormat("HH:mm");
+        String timeString = formatter.format(time);
+        return timeString;
+    }
+
+
+    public static Time covertStringToTime(String string){
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        try {
+            return  new Time(formatter.parse(string).getTime());
+        } catch (ParseException e) {
+            return new Time(0);
+        }
     }
 }

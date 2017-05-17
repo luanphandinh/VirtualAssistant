@@ -20,12 +20,16 @@ public class ScheduleHelper {
     public static final String SCHEDULE_COLUMN_ID = "id";
     public static final String SCHEDULE_COLUMN_DATE = "date";
     public static final String SCHEDULE_COLUMN_ACTION = "action";
+    public static final String SCHEDULE_COLUMN_STARTIME = "startTime";
+    public static final String SCHEDULE_COLUMN_ENDTIME = "endTime";
 
     public static final String DB_PROCESS_CREATE =
             "create table "
             + SCHEDULE_TABLE_NAME + "("
             + SCHEDULE_COLUMN_ID + " integer primary key autoincrement, "
             + SCHEDULE_COLUMN_ACTION + " text, "
+            + SCHEDULE_COLUMN_STARTIME + " text, "
+            + SCHEDULE_COLUMN_ENDTIME + " text, "
             + SCHEDULE_COLUMN_DATE + " date)";
     DBHelper dbHelper;
 //
@@ -38,7 +42,22 @@ public class ScheduleHelper {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(SCHEDULE_COLUMN_ACTION, action);
+        contentValues.put(SCHEDULE_COLUMN_ACTION, action);
+        contentValues.put(SCHEDULE_COLUMN_STARTIME, "null");
+        contentValues.put(SCHEDULE_COLUMN_ENDTIME, "null");
+        int id  = (int) db.insert(SCHEDULE_TABLE_NAME, null, contentValues);
+        db.close();
+        return id;
+    }
+
+    public int insertSchedule(String date, String action,String startTime,String endTime){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(SCHEDULE_COLUMN_ACTION, action);
         contentValues.put(SCHEDULE_COLUMN_DATE, date);
+        contentValues.put(SCHEDULE_COLUMN_STARTIME, startTime);
+        contentValues.put(SCHEDULE_COLUMN_ENDTIME, endTime);
         int id  = (int) db.insert(SCHEDULE_TABLE_NAME, null, contentValues);
         db.close();
         return id;
@@ -56,26 +75,26 @@ public class ScheduleHelper {
         Log.d("Lay Data","Bat dau lay");
         //hp = new HashMap();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-//        Cursor res =  db.rawQuery(
-//                "select " +SCHEDULE_COLUMN_ACTION + " from " + SCHEDULE_TABLE_NAME +
-//                        " where " + SCHEDULE_COLUMN_DATE + " between "
-//                        + "'" + beginDay + "'" +" and " + "'" + endDay + "'"
-//                , null );
         Cursor res =  db.rawQuery(
-                "select " +  LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_START_TIME + ", "
-                        + LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_END_TIME + ", "
-                        + SCHEDULE_COLUMN_ACTION
-                        + " from " + SCHEDULE_TABLE_NAME + "," + LengthOfTimeHelper.LENGTH_OF_TIME_TABLE_NAME
-                        + " where " + ScheduleHelper.SCHEDULE_TABLE_NAME +"." +ScheduleHelper.SCHEDULE_COLUMN_ID + " = " + LengthOfTimeHelper.SCHEDULE_COLUMN_ID
-                        + " and " + SCHEDULE_COLUMN_DATE + " between "
+                "select *" + " from " + SCHEDULE_TABLE_NAME +
+                        " where " + SCHEDULE_COLUMN_DATE + " between "
                         + "'" + beginDay + "'" +" and " + "'" + endDay + "'"
                 , null );
+//        Cursor res =  db.rawQuery(
+//                "select " +  LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_START_TIME + ", "
+//                        + LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_END_TIME + ", "
+//                        + SCHEDULE_COLUMN_ACTION
+//                        + " from " + SCHEDULE_TABLE_NAME + "," + LengthOfTimeHelper.LENGTH_OF_TIME_TABLE_NAME
+//                        + " where " + ScheduleHelper.SCHEDULE_TABLE_NAME +"." +ScheduleHelper.SCHEDULE_COLUMN_ID + " = " + LengthOfTimeHelper.SCHEDULE_COLUMN_ID
+//                        + " and " + SCHEDULE_COLUMN_DATE + " between "
+//                        + "'" + beginDay + "'" +" and " + "'" + endTime + "'"
+//                , null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_START_TIME))
+            array_list.add(res.getString(res.getColumnIndex(SCHEDULE_COLUMN_STARTIME))
                     + "-"
-                    + res.getString(res.getColumnIndex(LengthOfTimeHelper.LENGTH_OF_TIME_COLUMN_END_TIME))
+                    + res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ENDTIME))
                     + " : "
                     + res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
 //            Log.d("Lay Data",res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION)));
@@ -149,5 +168,30 @@ public class ScheduleHelper {
         res.close();
         db.close();
         return array_list;
+    }
+
+    public ArrayList<Schedule> getData(String date) {
+        ArrayList<Schedule> list = new ArrayList<>();
+//        Log.d("Lay Data","Bat dau lay");
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * " + " from " + SCHEDULE_TABLE_NAME +
+                " where " + SCHEDULE_COLUMN_DATE + " between "
+                + "'" + date + "'" +" and " + "'" + date + "'",null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            int id = res.getInt(res.getColumnIndex(SCHEDULE_COLUMN_ID));
+            String actions = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION));
+            String startTime = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_STARTIME));
+            String endTime = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ENDTIME));
+            Schedule schedule = new Schedule(id,actions,startTime,endTime);
+            Log.d("Test SCHEDULE",res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ID)));
+            list.add(schedule);
+            res.moveToNext();
+        }
+
+        res.close();
+        db.close();
+        return list;
     }
 }

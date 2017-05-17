@@ -1,6 +1,7 @@
 package chongxuocmanhinh.virtualassistant;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,12 +11,18 @@ import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +43,11 @@ public class ScheduleActivity extends AppCompatActivity {
     private CaldroidFragment dialogCaldroidFragment;
     private ScheduleHelper scheduleDB;
     private ArrayList<String> schduleList;
+    private Date currentDate;
+    private Date lastDate;
     private ArrayList<String> actionList;
+    private ScheduleAdapter scheduleAdapter;
+    private ScheduleAdapter mAdapter;
     private Looper mLooper;
     private Handler mHandler;
 
@@ -86,9 +97,10 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
                 caldroidFragment.setTextColorForDate(R.color.white, dates.get(i));
             }
-
         }
+
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +110,8 @@ public class ScheduleActivity extends AppCompatActivity {
         final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
         scheduleDB = new ScheduleHelper(this);
+        ListView scheduleListView = (ListView) findViewById(R.id.lvSchedule);
+        registerForContextMenu(scheduleListView);
         // Setup caldroid fragment
         // **** If you want normal CaldroidFragment, use below line ****
         caldroidFragment = new CaldroidFragment();
@@ -151,9 +165,11 @@ public class ScheduleActivity extends AppCompatActivity {
 
             @Override
             public void onSelectDate(Date date, View view) {
-                Toast.makeText(getApplicationContext(), formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
-                displayActions(date);
+                populateScheduleList(date);
+                currentDate = date;
+                caldroidFragment.setSelectedDates(currentDate, currentDate);
+                caldroidFragment.refreshView();
+//                displayActions(date);
             }
 
             @Override
@@ -180,35 +196,32 @@ public class ScheduleActivity extends AppCompatActivity {
         // Setup Caldroid
         caldroidFragment.setCaldroidListener(listener);
 
-//        // Setup Buttons
-//        addButton = (Button) findViewById(R.id.btn_add);
-//        addButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//
-//        deletButton = (Button) findViewById(R.id.btn_delete);
-//        deletButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ScheduleActivity.this, EraseScheduleActivity.class);
-//                intent.putExtra("date",selectedDate);
-//                startActivity(intent);
-//            }
-//        });
+        //Setup ListView Shedule
+    }
+    private void populateScheduleList(Date date) {
+        // Construct the data source
+        ArrayList<Schedule> schedules = queryData(date);
+        // Create the adapter to convert the array to views
+        mAdapter = new ScheduleAdapter(this, schedules);
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) findViewById(R.id.lvSchedule);
+        listView.setAdapter(mAdapter);
+    }
+
+    private ArrayList<Schedule> queryData(Date date){
+        String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        return scheduleDB.getData(stringDate);
     }
 
     private void displayActions(Date date){
-        TextView action = (TextView) findViewById(R.id.action);
-        String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        actionList = scheduleDB.getAllActions(stringDate,stringDate);
-        String stringAction = "";
-        for(int i = 0;i < actionList.size();i++){
-            stringAction += actionList.get(i) + '\n';
-        }
-        action.setText(stringAction);
+//        TextView action = (TextView) findViewById(R.id.action);
+//        String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+//        actionList = scheduleDB.getAllActions(stringDate,stringDate);
+//        String stringAction = "";
+//        for(int i = 0;i < actionList.size();i++){
+//            stringAction += actionList.get(i) + '\n';
+//        }
+//        action.setText(stringAction);
     }
 
     /**
@@ -229,4 +242,45 @@ public class ScheduleActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if(v.getId() == R.id.lvSchedule){
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            menu.setHeaderTitle("Tùy chỉnh");
+
+            menu.add("Xóa");
+        }
+    }
+
+    int deleteId;
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getTitle().equals("Xóa")) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            int listPosition = info.position;
+            deleteId = ((Schedule) (mAdapter.getItem(listPosition))).getId();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Bạn có muốn xóa?").setPositiveButton("Có", dialogClickListener)
+                    .setNegativeButton("Không", dialogClickListener).show();
+        }
+        return true;
+    }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    scheduleDB.deleteData(deleteId);
+                    populateScheduleList(currentDate);
+                    caldroidFragment.refreshView();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 }
