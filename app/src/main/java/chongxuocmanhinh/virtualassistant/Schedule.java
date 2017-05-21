@@ -56,6 +56,8 @@ public class Schedule {
             value += startTime + "-";
         if(!endTime.equals(TimeExtractor.NULLSTRING))
             value += endTime;
+        if(startTime.equals(TimeExtractor.NULLSTRING) && endTime.equals(TimeExtractor.NULLSTRING))
+            value = "Không rõ thời gian";
         return value;
     }
 

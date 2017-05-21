@@ -40,14 +40,13 @@ public class SentenceRebuilder {
 
     public void setString(String string){
         _stringData = string;
-        this.rebuild();
     }
 
     /**
      * Hàm này thực hiện việc kiểm tra các chuỗi alias có trong database
      * Sau đó thay thế chuỗi bằng dữ liệu được điều chỉnh bởi người dùng
      */
-    public void rebuild(){
+    public boolean rebuild(){
         StringBuffer buffer = new StringBuffer(_stringData);
         dateExtractor.resetValues();
         timeExtractor.resetValues();
@@ -65,7 +64,6 @@ public class SentenceRebuilder {
                     _stringData = buffer.toString();
                     dateExtractor.setData(_stringData,supportCalculateDate.getCalendar());
                     //dateExtractor.extract();
-                    return;
                 }else{
                     _stringData = buffer.replace(start,end,_userCustomizedStringData.get(key)).toString();
                 }
@@ -75,9 +73,10 @@ public class SentenceRebuilder {
         timeExtractor.setStringData(_stringData + " ");
         if(timeExtractor.extract()){
             _stringData = timeExtractor.getStringData();
-        }
+        }else return false;
         dateExtractor.setData(_stringData);
         dateExtractor.extract();
+        return true;
     }
 
     public DateExtractor getDateExtractor(){

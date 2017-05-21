@@ -61,7 +61,7 @@ public class TimeExtractor {
     public boolean extract(){
         checkFrom(FROM);
         checkFrom(TO);
-        if(_startTime.compareTo(_endTime) > 0){
+        if(_startTime.compareTo(_endTime) > 0 && _startTimeString.compareTo(NULLSTRING) != 0 && _endTimeString.compareTo(NULLSTRING) != 0){
             return false;
         }
         return true;

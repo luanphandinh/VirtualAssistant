@@ -29,7 +29,8 @@ public abstract class ListeningActivity extends AppCompatActivity implements IVo
         try {
             initSpeech();
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+//            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"vi-VN");
             if (!intent.hasExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE))
             {
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,

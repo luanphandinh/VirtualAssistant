@@ -28,8 +28,8 @@ public class ScheduleHelper {
             + SCHEDULE_TABLE_NAME + "("
             + SCHEDULE_COLUMN_ID + " integer primary key autoincrement, "
             + SCHEDULE_COLUMN_ACTION + " text, "
-            + SCHEDULE_COLUMN_STARTIME + " text, "
-            + SCHEDULE_COLUMN_ENDTIME + " text, "
+            + SCHEDULE_COLUMN_STARTIME + " time, "
+            + SCHEDULE_COLUMN_ENDTIME + " time, "
             + SCHEDULE_COLUMN_DATE + " date)";
     DBHelper dbHelper;
 //
@@ -177,17 +177,17 @@ public class ScheduleHelper {
         Cursor res =  db.rawQuery( "select * " + " from " + SCHEDULE_TABLE_NAME +
                 " where " + SCHEDULE_COLUMN_DATE + " between "
                 + "'" + date + "'" +" and " + "'" + date + "'",null );
-        res.moveToFirst();
-
-        while(res.isAfterLast() == false){
-            int id = res.getInt(res.getColumnIndex(SCHEDULE_COLUMN_ID));
-            String actions = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION));
-            String startTime = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_STARTIME));
-            String endTime = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ENDTIME));
-            Schedule schedule = new Schedule(id,actions,startTime,endTime);
-            Log.d("Test SCHEDULE",res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ID)));
-            list.add(schedule);
-            res.moveToNext();
+        if(res != null && res.moveToFirst()) {
+            while (res.isAfterLast() == false) {
+                int id = res.getInt(res.getColumnIndex(SCHEDULE_COLUMN_ID));
+                String actions = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ACTION));
+                String startTime = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_STARTIME));
+                String endTime = res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ENDTIME));
+                Schedule schedule = new Schedule(id, actions, startTime, endTime);
+                Log.d("Test SCHEDULE", res.getString(res.getColumnIndex(SCHEDULE_COLUMN_ID)));
+                list.add(schedule);
+                res.moveToNext();
+            }
         }
 
         res.close();

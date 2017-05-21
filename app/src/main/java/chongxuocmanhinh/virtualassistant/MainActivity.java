@@ -85,13 +85,25 @@ public class MainActivity extends ListeningActivity {
     @Override
     public void processVoiceCommands(String... voiceCommands) {
         for (String command : voiceCommands) {
-            sentenceRebuilder.setString(command);
-            String text1 = sentenceRebuilder.getDateExtractor().getDate();
-            String text2 = sentenceRebuilder.getDateExtractor().getAction();
-            String text3 = sentenceRebuilder.getTimeExtractor().getStartTime().toString();
-            String text4 = sentenceRebuilder.getTimeExtractor().getEndTime().toString();
-            int id = scheduleDB.insertSchedule(text1,text2,text3,text4);
-            txtOutput.setText(text1 + "\n" + text2 + "\n" + text3 + " - " + text4);
+            try {
+                sentenceRebuilder.setString(command);
+                if (sentenceRebuilder.rebuild()) {
+                    String text1 = sentenceRebuilder.getDateExtractor().getDate();
+                    String text2 = sentenceRebuilder.getDateExtractor().getAction();
+                    String text3 = sentenceRebuilder.getTimeExtractor().getStartTime().toString();
+                    String text4 = sentenceRebuilder.getTimeExtractor().getEndTime().toString();
+                    int id = scheduleDB.insertSchedule(text1, text2, text3, text4);
+                    if (text3.equals(TimeExtractor.NULLSTRING))
+                        text3 = "";
+                    if (text4.equals(TimeExtractor.NULLSTRING))
+                        text4 = "";
+                    txtOutput.setText(text1 + "\n" + text2 + "\n" + text3 + " - " + text4);
+                } else {
+                    txtOutput.setText("Xin lỗi!không thể hiểu ý của bạn");
+                }
+            }catch (Exception e){
+                txtOutput.setText("Xin lỗi!không thể hiểu ý của bạn");
+            }
         }
         restartListeningService();
     }
