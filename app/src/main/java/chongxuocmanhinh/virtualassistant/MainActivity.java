@@ -1,10 +1,14 @@
 package chongxuocmanhinh.virtualassistant;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,9 +19,10 @@ public class MainActivity extends ListeningActivity {
 
     private final int SPEECH_RECOGNITION_CODE = 1;
     private TextView txtOutput;
-    private ImageView btnMicrophone;
+    private Button btnMicrophone;
     private LinearLayout btnSchedule;
     private LinearLayout btnCustomize;
+    private  TextView txtinOut;
 
     private ScheduleHelper scheduleDB;
     private LengthOfTimeHelper lengthOfTimeDB;
@@ -39,7 +44,8 @@ public class MainActivity extends ListeningActivity {
         extractor = new DateExtractor();
         sentenceRebuilder = new SentenceRebuilder();
         txtOutput = (TextView) findViewById(R.id.txt_output);
-        btnMicrophone = (ImageView) findViewById(R.id.micro);
+        txtinOut = (TextView) findViewById(R.id.txt_InOut) ;
+        btnMicrophone = (Button) findViewById(R.id.micro);
         changeBtnListeningIcon(listeningFlag);
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,10 +134,14 @@ public class MainActivity extends ListeningActivity {
     private void changeBtnListeningIcon(int flag){
         switch (flag){
             case FLAG_LISTENING:
-                btnMicrophone.setImageResource(R.drawable.cancel);
+                btnMicrophone.setBackgroundResource(R.drawable.microphone);
+                didTapButton();
+                txtinOut.setText(R.string.out);
                 break;
             case FLAG_STOP:
-                btnMicrophone.setImageResource(R.drawable.micro_big);
+                btnMicrophone.setBackgroundResource(R.drawable.amicrophone2);
+                didTapButton();
+                txtinOut.setText(R.string.in);
                 break;
         }
     }
@@ -156,5 +166,13 @@ public class MainActivity extends ListeningActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void didTapButton() {
+
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.animator.test );
+        // Use bounce interpolator with amplitude 0.2 and frequency 20
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 30);
+        myAnim.setInterpolator(interpolator);
+        btnMicrophone.startAnimation(myAnim);
     }
 }

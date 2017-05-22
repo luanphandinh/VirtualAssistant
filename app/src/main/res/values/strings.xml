@@ -8,10 +8,14 @@
     <string name="addCustomizedString">Thêm tùy chỉnh</string>
     <string name="updateCustomizedString">Sửa tùy chỉnh</string>
     <string name="customizedString">Người dùng tùy chỉnh</string>
-    <string name="showSchedule">Hiển thị lịch</string>
+    <string name="showSchedule">HIỂN THỊ LỊCH</string>
     <string name="delete">Xóa lịch</string>
     <string name="key">Từ khóa : </string>
     <string name="value">Giá trị : </string>
     <string name="permission_request_summary">Ứng dụng trợ lý ảo xếp lịch cần quyền truy cập bô nhớ của máy bạn</string>
+    <string name="in">Nhấp vào micro để bắt đầu nói </string>
+    <string name="out">Nói ngay bây giờ </string>
+
+
 
 </resources>
