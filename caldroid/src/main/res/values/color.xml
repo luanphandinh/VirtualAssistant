@@ -5,7 +5,7 @@
     <color name="caldroid_black">#000000</color>
     <color name="caldroid_transparent">#00000000</color>
     <!-- For settings framework -->
-    <color name="caldroid_lighter_gray">#ddd</color>
+    <color name="caldroid_lighter_gray">#0546ea</color>
     <color name="caldroid_gray">#CCC</color>
     <color name="caldroid_darker_gray">#aaa</color>
     <color name="caldroid_middle_gray">#888</color>
@@ -14,7 +14,7 @@
     <!-- A dark Holo shade of blue -->
     <color name="caldroid_holo_blue_dark">#ff0099cc</color>
     <!-- A really bright Holo shade of blue -->
-    <color name="caldroid_sky_blue">#FFA3E8F7</color>
+    <color name="caldroid_sky_blue">#a3e8f7</color>
 
     <color name="caldroid_333">#333</color>
     <color name="caldroid_555">#555</color>
