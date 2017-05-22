@@ -1,97 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/calendarbr">
+
+    <Button
+        android:id="@+id/micro"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/txt_InOut"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/amicrophone2" />
+
     <TextView
         android:id="@+id/txt_output"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
-        android:textSize="14dp"
-        android:textStyle="normal" />
-    <ImageView
-        android:id="@+id/micro"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/micro_big"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        />
+        android:layout_marginTop="75dp"
+        android:fontFamily="sans-serif"
+        android:textAllCaps="true"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <LinearLayout
+        android:id="@+id/lnrlyout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="14dp"
         android:gravity="center"
         android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:layout_marginTop="250dp"
-        android:id="@+id/lnrlyout">
+        android:paddingRight="25dp">
+
         <LinearLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/content"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/layout_schedule"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:orientation="horizontal"
                 android:padding="16dp">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/calendar"
-                    android:layout_gravity="center"/>
+                    android:id="@+id/imageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/acalendericon"
+                    android:src="@drawable/acalendericon" />
+
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/showSchedule"
-                    android:textColorHint="#fff"
+                    android:layout_height="51dp"
                     android:layout_marginLeft="15dp"
                     android:background="#00000000"
-                    android:letterSpacing="0.1"
-                    android:textSize="16dp"
-                    android:textColor="#fff"
                     android:inputType="text"
-                    />
+                    android:letterSpacing="0.1"
+                    android:text="@string/showSchedule"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textColorHint="#fff"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#5fff"></LinearLayout>
+
             <LinearLayout
                 android:id="@+id/layout_customized"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:orientation="horizontal"
                 android:padding="16dp">
+
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/settings"
-                    android:layout_gravity="center"/>
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/setting" />
+
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/customizedString"
-                    android:textColorHint="#fff"
+                    android:layout_height="45dp"
                     android:layout_marginLeft="15dp"
                     android:background="#00000000"
                     android:letterSpacing="0.1"
+                    android:text="@string/customizedString"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textColorHint="#fff"
                     android:textSize="16dp"
-                    android:textColor="#fff"
-                    />
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#5fff"></LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_InOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lnrlyout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:fontFamily="cursive"
+        android:text="Nhấp vào micro để bắt đầu nói"
+        android:textAllCaps="true"
+        android:textColor="@color/caldroid_black"
+        android:textSize="14sp" />
 
 </RelativeLayout>

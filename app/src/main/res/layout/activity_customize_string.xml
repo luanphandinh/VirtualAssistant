@@ -5,27 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="chongxuocmanhinh.virtualassistant.CustomizeStringActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/background"
         android:orientation="vertical">
         <!--================================================================================-->
         <LinearLayout
             android:id="@+id/add_new_customized_string_layout"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <ImageButton
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/add"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/addbtn"
+                android:gravity="center" />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/addCustomizedString"
+                android:id="@+id/textView"
+                android:layout_width="181dp"
+                android:layout_height="match_parent"
                 android:gravity="center_horizontal|top"
-                android:textSize="22sp"/>
+                android:text="@string/addCustomizedString"
+                android:textAllCaps="true"
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
 
@@ -33,15 +43,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-                <ListView
-                    android:id="@+id/lvCustomizedString"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true" >
-                </ListView>
+
+            <ListView
+                android:id="@+id/lvCustomizedString"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"></ListView>
         </LinearLayout>
 
     </LinearLayout>
