@@ -8,8 +8,9 @@
         android:id="@+id/tvTime"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="13sp"
-        android:text="Hi" />
+        android:background="@drawable/a283932cb312ec2c81af03cc8700a6ea"
+        android:text="Hi"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/tvAction"

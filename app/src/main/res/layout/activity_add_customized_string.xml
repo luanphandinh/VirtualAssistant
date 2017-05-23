@@ -5,69 +5,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="chongxuocmanhinh.virtualassistant.AddCustomizedStringActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/tiles"
         android:orientation="vertical">
 
         <!--KEY-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"  >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/key"
+                android:textColor="@color/caldroid_black"
                 android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/txtKey"
-                android:layout_alignParentLeft="true"
-                android:layout_weight="1"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent">
-            </EditText>
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"></EditText>
+
             <ImageButton
                 android:id="@+id/btn_edit_key"
-                android:src="@drawable/micro"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
-            </ImageButton>
+                android:src="@drawable/micro"></ImageButton>
         </LinearLayout>
 
         <!--KEY-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"  >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/value"
+                android:textColor="@android:color/background_dark"
                 android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/txtValue"
-                android:layout_alignParentLeft="true"
-                android:layout_weight="1"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent">
-            </EditText>
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"></EditText>
+
             <ImageButton
                 android:id="@+id/btn_edit_value"
-                android:src="@drawable/micro"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
-            </ImageButton>
+                android:src="@drawable/micro"></ImageButton>
         </LinearLayout>
 
         <LinearLayout
@@ -77,22 +85,22 @@
 
             <Button
                 android:id="@+id/btn_add"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="@string/addCustomizedString"/>
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/addCustomizedString"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_update"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/updateCustomizedString"
 
-                android:text="@string/updateCustomizedString"/>
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>
