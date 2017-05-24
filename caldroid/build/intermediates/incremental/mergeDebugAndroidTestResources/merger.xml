@@ -1606,7 +1606,7 @@
     </style><attr format="reference" name="styleCaldroidNormalCell"/><style name="CaldroidDefaultArrowButton">
         <item name="android:layout_width">44dp</item>
         <item name="android:layout_height">44dp</item>
-    </style><color name="caldroid_holo_blue_dark">#ff0099cc</color><color name="caldroid_sky_blue">#FFA3E8F7</color><style name="CaldroidDefaultLeftButton" parent="CaldroidDefaultArrowButton">
+    </style><color name="caldroid_holo_blue_dark">#ff0099cc</color><color name="caldroid_sky_blue">#a3e8f7</color><style name="CaldroidDefaultLeftButton" parent="CaldroidDefaultArrowButton">
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:background">@drawable/left_arrow</item>
     </style><style name="CaldroidDefaultWeekday">
@@ -1615,7 +1615,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">5dp</item>
-    </style><color name="caldroid_holo_blue_light">#ff33b5e5</color><color name="caldroid_lighter_gray">#ddd</color><style name="CaldroidDefaultDarkCalendarViewLayout" parent="CaldroidDefaultCalendarViewLayout">
+    </style><color name="caldroid_holo_blue_light">#ff33b5e5</color><color name="caldroid_lighter_gray">#0546ea</color><style name="CaldroidDefaultDarkCalendarViewLayout" parent="CaldroidDefaultCalendarViewLayout">
         <item name="android:background">@android:color/black</item>
     </style><color name="caldroid_gray">#CCC</color><color name="caldroid_white">#FFFFFF</color><style name="CaldroidDefaultCell">
         <item name="android:textColor">@color/cell_text_color</item>

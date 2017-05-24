@@ -16,9 +16,9 @@
     <color name="caldroid_holo_blue_dark">#ff0099cc</color>
     <color name="caldroid_holo_blue_light">#ff33b5e5</color>
     <color name="caldroid_light_red">#ff7f7f</color>
-    <color name="caldroid_lighter_gray">#ddd</color>
+    <color name="caldroid_lighter_gray">#0546ea</color>
     <color name="caldroid_middle_gray">#888</color>
-    <color name="caldroid_sky_blue">#FFA3E8F7</color>
+    <color name="caldroid_sky_blue">#a3e8f7</color>
     <color name="caldroid_transparent">#00000000</color>
     <color name="caldroid_white">#FFFFFF</color>
     <declare-styleable name="Cell"><attr name="android:textColor"/><attr name="android:background"/></declare-styleable>

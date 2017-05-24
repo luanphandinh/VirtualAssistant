@@ -7,15 +7,14 @@
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/a283932cb312ec2c81af03cc8700a6ea"
+        android:layout_height="wrap_content"
         android:text="Hi"
         android:textSize="13sp" />
 
     <TextView
         android:id="@+id/tvAction"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="Hello"
         android:textSize="16sp" />
 
