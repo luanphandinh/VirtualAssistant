@@ -5,10 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_schedule">Schedule</string>
     <string name="add">Thêm lịch</string>
-    <string name="addCustomizedString">Thêm tùy chỉnh</string>
+    <string name="addCustomizedString">Ấn vào để thêm tùy chỉnh</string>
     <string name="updateCustomizedString">Sửa tùy chỉnh</string>
     <string name="customizedString">Người dùng tùy chỉnh</string>
-    <string name="showSchedule">XEM LỊCH CÔNG VIỆC CỦA BẠN</string>
+    <string name="showSchedule">XEM LỊCH CÔNG VIỆC</string>
     <string name="delete">Xóa lịch</string>
     <string name="key">Từ khóa : </string>
     <string name="value">Giá trị : </string>
