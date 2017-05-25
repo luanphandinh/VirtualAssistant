@@ -15,34 +15,27 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <!--================================================================================-->
-
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="399dp"
-            android:layout_height="wrap_content"
-            android:text="ẤN VÀO ADD ĐỂ THÊM TÙY CHỈNH"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:id="@+id/add_new_customized_string_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView"
+            <ImageButton
                 android:layout_width="90dp"
                 android:layout_height="33dp"
-                android:background="@drawable/addb2"
-                android:gravity="center_horizontal|top"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:background="@drawable/addb2">
 
+            </ImageButton>
+            <TextView
+                android:id="@+id/txtValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="THÊM TÙY CHỈNH"
+                android:textSize="30dp"
+                android:layout_weight="1"></TextView>
 
         </LinearLayout>
-
 
         <!--================================================================================-->
 

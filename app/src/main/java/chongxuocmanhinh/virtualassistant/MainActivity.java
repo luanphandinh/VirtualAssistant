@@ -76,6 +76,9 @@ public class MainActivity extends ListeningActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
                 startActivity(intent);
+                if(listeningFlag == FLAG_LISTENING){
+                    clickBtnListening();
+                }
             }
         });
 
@@ -85,6 +88,9 @@ public class MainActivity extends ListeningActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CustomizeStringActivity.class);
                 startActivity(intent);
+                if(listeningFlag == FLAG_LISTENING){
+                    clickBtnListening();
+                }
             }
         });
 
