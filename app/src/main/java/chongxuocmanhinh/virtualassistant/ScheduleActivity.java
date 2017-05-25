@@ -99,6 +99,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         }
 
+        selectDate(cal.getTime());
     }
 
 
@@ -165,10 +166,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
             @Override
             public void onSelectDate(Date date, View view) {
-                populateScheduleList(date);
-                currentDate = date;
-                caldroidFragment.setSelectedDates(currentDate, currentDate);
-                caldroidFragment.refreshView();
+                selectDate(date);
 //                displayActions(date);
             }
 
@@ -206,6 +204,13 @@ public class ScheduleActivity extends AppCompatActivity {
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.lvSchedule);
         listView.setAdapter(mAdapter);
+    }
+
+    private void selectDate(Date date){
+        populateScheduleList(date);
+        currentDate = date;
+        caldroidFragment.setSelectedDates(currentDate, currentDate);
+        caldroidFragment.refreshView();
     }
 
     private ArrayList<Schedule> queryData(Date date){

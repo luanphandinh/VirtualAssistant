@@ -14,11 +14,13 @@ public class TimeExtractor {
 
     private  LengthOfTime lengthOfTime;
 
+    private boolean wrongTimeInput = false;
+
     private String _stringData;
 
-    private String[] FROMSTRINGS = {"Từ lúc","từ lúc","Từ","từ","lúc","Lúc"};
+    private String[] FROMSTRINGS = {"Từ lúc ","từ lúc ","Từ ","từ ","lúc ","Lúc ",""};
 
-    private String[] TOSTRINGS = {"Đến lúc","đến lúc","Đến","đến"};
+    private String[] TOSTRINGS = {"Đến lúc ","đến lúc ","Đến ","đến "};
 
     private String[] SEPERATORS = {":"," giờ "," ",""};
 
@@ -51,6 +53,7 @@ public class TimeExtractor {
         _endTime.setTime(0);
         _startTimeString = NULLSTRING;
         _endTimeString = NULLSTRING;
+        wrongTimeInput = false;
     }
 
     public String getStringData(){
@@ -61,10 +64,15 @@ public class TimeExtractor {
     public boolean extract(){
         checkFrom(FROM);
         checkFrom(TO);
+        if(wrongTimeInput) return false;
         if(_startTime.compareTo(_endTime) > 0 && _startTimeString.compareTo(NULLSTRING) != 0 && _endTimeString.compareTo(NULLSTRING) != 0){
             return false;
         }
         return true;
+    }
+
+    public boolean isWrongTimeInput(){
+        return wrongTimeInput;
     }
 
     public String getStartTime(){
@@ -95,13 +103,17 @@ public class TimeExtractor {
                     for(int m = 0;m < MINUTES.length;m++)
                         for (int k = 0; k < ENDS.length; k++) {
 
-                            String compileString = checkStrings[i] + " " + "([0-9].?)" + SEPERATORS[j] + MINUTES[m] + ENDS[k];
+                            String compileString = checkStrings[i] + "([0-9].?)" + SEPERATORS[j] + MINUTES[m] + ENDS[k];
                             Pattern pattern = Pattern.compile(compileString);
                             Matcher matcher = pattern.matcher(_stringData);
                             if (matcher.find()) {
                                 try {
                                     try {
                                         hour = Integer.parseInt(matcher.group(1));
+                                        if(hour > 24) {
+                                            wrongTimeInput = true;
+                                            return false;
+                                        }
                                         System.out.println(hour);
                                     }catch (NumberFormatException e){
                                         System.out.println(hour);
@@ -109,6 +121,10 @@ public class TimeExtractor {
 
                                     try{
                                         min = Integer.parseInt(matcher.group(2));
+                                        if(hour == 24 && min > 60) {
+                                            wrongTimeInput = true;
+                                            return false;
+                                        }
                                         System.out.println(min);
                                     }catch (Exception e){
                                         min = 0;

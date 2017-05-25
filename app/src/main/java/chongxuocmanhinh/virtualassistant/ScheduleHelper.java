@@ -194,4 +194,19 @@ public class ScheduleHelper {
         db.close();
         return list;
     }
+
+    public int getCount(String date){
+        int count = 0;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * " + " from " + SCHEDULE_TABLE_NAME +
+                " where " + SCHEDULE_COLUMN_DATE + " between "
+                + "'" + date + "'" +" and " + "'" + date + "'",null );
+        if(res != null && res.moveToFirst()) {
+                count++;
+        }
+
+        res.close();
+        db.close();
+        return count;
+    }
 }

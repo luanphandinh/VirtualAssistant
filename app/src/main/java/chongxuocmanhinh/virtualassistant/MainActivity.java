@@ -51,6 +51,7 @@ public class MainActivity extends ListeningActivity {
             @Override
             public void onClick(View v) {
                 clickBtnListening();
+                setupAlarm();
             }
         });
 
@@ -86,6 +87,13 @@ public class MainActivity extends ListeningActivity {
         context = getApplicationContext(); // Needs to be set
         VoiceRecognitionListener.getInstance().setListener(this); // Gán mainActivity để nghe
 
+
+        //Cài đặt phần tự động thông báo
+        setupAlarm();
+    }
+
+    public void setupAlarm() {
+        NotificationEventReceiver.setupAlarm(getApplicationContext());
     }
 
     @Override
