@@ -17,6 +17,7 @@
     <string name="out">Nói ngay bây giờ </string>
     <string name="notification_title">Thông báo</string>
     <string name="notification">Bạn có lịch vào ngày hôm nay</string>
+    <string name="needInternetConnection">Bạn cần kết nối vào internet</string>
 
 
 </resources>

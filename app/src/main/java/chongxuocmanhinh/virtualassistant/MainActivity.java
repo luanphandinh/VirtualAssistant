@@ -1,7 +1,9 @@
 package chongxuocmanhinh.virtualassistant;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -37,10 +39,12 @@ public class MainActivity extends ListeningActivity {
     private final int FLAG_STOP = 31;
     private int listeningFlag = FLAG_STOP;
     //===========================================================
+    private Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this.getApplicationContext();
         extractor = new DateExtractor();
         sentenceRebuilder = new SentenceRebuilder();
         txtOutput = (TextView) findViewById(R.id.txt_output);
@@ -50,8 +54,11 @@ public class MainActivity extends ListeningActivity {
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickBtnListening();
-                setupAlarm();
+                if(isNetworkAvailable(mContext)) {
+                    clickBtnListening();
+                }else{
+                    txtOutput.setText(getResources().getString(R.string.needInternetConnection));
+                }
             }
         });
 
@@ -129,6 +136,7 @@ public class MainActivity extends ListeningActivity {
     }
 
     private void clickBtnListening(){
+        removeTextOutput();
         if(listeningFlag == FLAG_STOP){
             listeningFlag = FLAG_LISTENING;
             startListening();
@@ -182,5 +190,19 @@ public class MainActivity extends ListeningActivity {
         MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 30);
         myAnim.setInterpolator(interpolator);
         btnMicrophone.startAnimation(myAnim);
+    }
+
+    /**
+     * Hàm kiểm tra xem thiết bị kết nối với internet hay chưa
+     * @param context
+     * @return
+     */
+    public boolean isNetworkAvailable(Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
+
+    private void removeTextOutput(){
+        txtOutput.setText("");
     }
 }

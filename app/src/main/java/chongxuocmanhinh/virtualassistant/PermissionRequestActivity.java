@@ -20,8 +20,7 @@ public class PermissionRequestActivity extends Activity {
 	 * 'dangerous' permissions not granted by the manifest on versions >= M
 	 */
 	private static final String[] NEEDED_PERMISSIONS = { Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE ,Manifest.permission.RECORD_AUDIO
-	        ,Manifest.permission.INTERNET};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE ,Manifest.permission.RECORD_AUDIO};
 	/**
 	 * The intent to start after acquiring the required permissions
 	 */
