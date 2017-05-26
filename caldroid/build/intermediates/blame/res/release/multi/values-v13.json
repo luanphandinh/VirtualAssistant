@@ -22,5 +22,29 @@
                 }
             }
         ]
+    },
+    {
+        "outputFile": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v13\\values-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 58,
+                    "endOffset": 109
+                },
+                "from": {
+                    "file": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\values-v13\\values-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 58,
+                        "endOffset": 109
+                    }
+                }
+            }
+        ]
     }
 ]

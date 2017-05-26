@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v16\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\layout-v16\\notification_template_custom_big.xml"
+    },
+    {
         "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v16\\notification_template_custom_big.xml",
         "source": "C:\\Users\\L\\.android\\build-cache\\9fee51f89ec7382a820a622505fec7cd112e9a43\\output\\res\\layout-v16\\notification_template_custom_big.xml"
     }

@@ -10,7 +10,7 @@
     <attr format="reference" name="styleCaldroidWeekdayView"/>
     <color name="caldroid_333">#333</color>
     <color name="caldroid_555">#555</color>
-    <color name="caldroid_black">#000000</color>
+    <color name="caldroid_black">#2c0505</color>
     <color name="caldroid_darker_gray">#aaa</color>
     <color name="caldroid_gray">#CCC</color>
     <color name="caldroid_holo_blue_dark">#ff0099cc</color>

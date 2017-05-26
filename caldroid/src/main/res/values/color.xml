@@ -2,7 +2,7 @@
 <resources>
 
     <color name="caldroid_white">#FFFFFF</color>
-    <color name="caldroid_black">#000000</color>
+    <color name="caldroid_black">#2c0505</color>
     <color name="caldroid_transparent">#00000000</color>
     <!-- For settings framework -->
     <color name="caldroid_lighter_gray">#0546ea</color>

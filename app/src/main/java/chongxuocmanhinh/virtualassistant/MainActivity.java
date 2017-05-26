@@ -37,6 +37,7 @@ public class MainActivity extends ListeningActivity {
     //===========================================================
     private final int FLAG_LISTENING = 21;
     private final int FLAG_STOP = 31;
+    private final int FLAG_ERROR = 404;
     private int listeningFlag = FLAG_STOP;
     //===========================================================
     private Context mContext;
@@ -55,8 +56,10 @@ public class MainActivity extends ListeningActivity {
             @Override
             public void onClick(View v) {
                 if(isNetworkAvailable(mContext)) {
+                    txtOutput.setTextColor(getResources().getColor(R.color.caldroid_black));
                     clickBtnListening();
                 }else{
+                    txtOutput.setTextColor(getResources().getColor(R.color.red));
                     txtOutput.setText(getResources().getString(R.string.needInternetConnection));
                 }
             }

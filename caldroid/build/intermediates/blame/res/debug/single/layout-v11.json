@@ -4,8 +4,24 @@
         "source": "C:\\Users\\L\\.android\\build-cache\\9fee51f89ec7382a820a622505fec7cd112e9a43\\output\\res\\layout-v11\\notification_media_cancel_action.xml"
     },
     {
+        "merged": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media.xml",
+        "source": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\layout-v11\\notification_template_big_media.xml"
+    },
+    {
+        "merged": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow_custom.xml",
+        "source": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\layout-v11\\notification_template_big_media_narrow_custom.xml"
+    },
+    {
         "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow.xml",
         "source": "C:\\Users\\L\\.android\\build-cache\\9fee51f89ec7382a820a622505fec7cd112e9a43\\output\\res\\layout-v11\\notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow.xml",
+        "source": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\layout-v11\\notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_action.xml",
+        "source": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\layout-v11\\notification_media_action.xml"
     },
     {
         "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_custom.xml",
@@ -14,6 +30,14 @@
     {
         "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_action.xml",
         "source": "C:\\Users\\L\\.android\\build-cache\\9fee51f89ec7382a820a622505fec7cd112e9a43\\output\\res\\layout-v11\\notification_media_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_cancel_action.xml",
+        "source": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\layout-v11\\notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_custom.xml",
+        "source": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\layout-v11\\notification_template_big_media_custom.xml"
     },
     {
         "merged": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media.xml",

@@ -1,5 +1,90 @@
 [
     {
+        "outputFile": "C:\\Users\\DELL\\Documents\\VirtualAssistant\\caldroid\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v12\\values-v12.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 274
+                },
+                "from": {
+                    "file": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\values-v12\\values-v12.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 4,
+                        "endColumn": 12,
+                        "endOffset": 274
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 279,
+                    "endLine": 7,
+                    "endColumn": 12,
+                    "endOffset": 474
+                },
+                "from": {
+                    "file": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\values-v12\\values-v12.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 279,
+                        "endLine": 7,
+                        "endColumn": 12,
+                        "endOffset": 474
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 479,
+                    "endColumn": 118,
+                    "endOffset": 593
+                },
+                "from": {
+                    "file": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\values-v12\\values-v12.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 479,
+                        "endColumn": 118,
+                        "endOffset": 593
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 598,
+                    "endColumn": 94,
+                    "endOffset": 688
+                },
+                "from": {
+                    "file": "C:\\Users\\DELL\\.android\\build-cache\\922313d94a9527a282318f4041e52e6c13d8b2af\\output\\res\\values-v12\\values-v12.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 598,
+                        "endColumn": 94,
+                        "endOffset": 688
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "D:\\College\\TaiLieu\\SoundRegconitionAPI\\VirtualAssistant\\caldroid\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v12\\values-v12.xml",
         "map": [
             {
